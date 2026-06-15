@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Intando Ndoda — Software Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0B0C10;
+    --surface: #13141A;
+    --surface2: #1C1E27;
+    --accent: #7C5CFC;
+    --accent2: #C084FC;
+    --text: #F0EFF4;
+    --muted: #8B8A99;
+    --border: rgba(255,255,255,0.08);
+    --font-display: 'Space Mono', monospace;
+    --font-body: 'Space Grotesk', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 5vw;
+    background: rgba(11,12,16,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    color: var(--accent2);
+    letter-spacing: 0.05em;
+    text-decoration: none;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 5vw 5rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(124,92,252,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    color: var(--accent2);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-name {
+    font-family: var(--font-display);
+    font-size: clamp(2.8rem, 7vw, 5.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  .hero-name span {
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .hero-sub {
+    font-size: 1.2rem;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 3rem;
+  }
+
+  .tag {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-family: var(--font-display);
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-outline {
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 0.85rem 2rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .btn-outline:hover { border-color: rgba(255,255,255,0.3); transform: translateY(-1px); }
+
+  /* SCROLL INDICATOR */
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 5vw;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--muted);
+    font-size: 0.75rem;
+    font-family: var(--font-display);
+    letter-spacing: 0.1em;
+  }
+
+  .scroll-line {
+    width: 40px;
+    height: 1px;
+    background: var(--muted);
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 6rem 5vw;
+  }
+
+  .section-label {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-divider {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    margin-bottom: 3rem;
+  }
+
+  /* ABOUT */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+    font-size: 1.05rem;
+  }
+
+  .about-text p strong { color: var(--text); font-weight: 600; }
+
+  .stat-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-top: 2rem;
+  }
+
+  .stat-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  .stat-number {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--accent2);
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 0.25rem;
+  }
+
+  .about-visual {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .av-initials {
+    width: 80px; height: 80px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    flex-shrink: 0;
+  }
+
+  .av-info h3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .av-info p { color: var(--muted); font-size: 0.9rem; }
+
+  .av-detail-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .av-detail-icon {
+    width: 36px; height: 36px;
+    background: var(--surface2);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+
+  .av-detail-text strong {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text);
+    margin-bottom: 0.1rem;
+  }
+
+  .av-detail-text span {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  /* SKILLS */
+  #skills { background: var(--surface); }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .skill-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .skill-card:hover {
+    border-color: rgba(124,92,252,0.4);
+    transform: translateY(-3px);
+  }
+
+  .skill-card-icon {
+    width: 44px; height: 44px;
+    background: rgba(124,92,252,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .skill-card h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  .skill-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .skill-bar-wrap {
+    height: 4px;
+    background: var(--surface2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .skill-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 999px;
+  }
+
+  .skill-pct {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--accent2);
+    margin-top: 0.5rem;
+  }
+
+  /* EXPERIENCE */
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 1px;
+    height: 100%;
+    background: var(--border);
+  }
+
+  .timeline-item {
+    position: relative;
+    padding-bottom: 3rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    left: -2.4rem;
+    top: 0.3rem;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(124,92,252,0.3);
+  }
+
+  .timeline-date {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--accent2);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+
+  .timeline-role {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-company {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .timeline-desc {
+    font-size: 0.95rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* PROJECTS */
+  #projects { background: var(--surface); }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .project-card:hover {
+    border-color: rgba(124,92,252,0.4);
+    transform: translateY(-3px);
+  }
+
+  .project-num {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    margin-bottom: 1rem;
+  }
+
+  .project-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  .project-card p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    flex: 1;
+    margin-bottom: 1.25rem;
+  }
+
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tech-pill {
+    background: rgba(124,92,252,0.12);
+    color: var(--accent2);
+    font-size: 0.75rem;
+    font-family: var(--font-display);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid rgba(124,92,252,0.25);
+  }
+
+  /* EDUCATION */
+  .edu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .edu-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+  }
+
+  .edu-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .edu-degree {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  .edu-school {
+    font-size: 0.9rem;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+
+  .edu-year {
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .edu-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* CONTACT */
+  #contact { background: var(--surface); }
+
+  .contact-wrap {
+    max-width: 640px;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2.5rem;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .contact-item:hover {
+    border-color: rgba(124,92,252,0.4);
+    transform: translateX(4px);
+  }
+
+  .contact-icon {
+    width: 40px; height: 40px;
+    background: rgba(124,92,252,0.15);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+  }
+
+  .contact-label {
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  .contact-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
+
+  .contact-arrow {
+    margin-left: auto;
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2.5rem 5vw;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  footer p {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-family: var(--font-display);
+  }
+
+  footer span {
+    color: var(--accent2);
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .nav-links { display: none; }
+    .hero { padding-top: 6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">IN</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Get to know</p>
+  <h1 class="hero-name">Intando<br /><span>Ndoda</span></h1>
+  <p class="hero-sub">Aspiring software developer with a background in sales — building at the intersection of code and people.</p>
+  <div class="hero-tags">
+    <span class="tag">Software Development</span>
+    <span class="tag">Johannesburg, ZA</span>
+    <span class="tag">Sales Background</span>
+    <span class="tag">Currently Studying</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#contact" class="btn-primary">Get in touch</a>
+    <a href="#projects" class="btn-outline">View projects</a>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-line"></div>
+    scroll to explore
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <p class="section-label">About me</p>
+  <h2 class="section-title">Who I am</h2>
+  <div class="section-divider"></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Hey, I'm <strong>Intando Ndoda</strong> — a software development student based in <strong>Johannesburg</strong>, South Africa. I'm on a mission to turn code into tools that actually solve real problems.</p>
+      <p>Before diving into tech, I built real-world experience in <strong>sales</strong> — learning how to understand people, communicate clearly, and hustle. Those skills follow me into every line of code I write. I take every job opportunity as a lesson in life and I make sure I put in <strong>100%</strong> into my work.</p>
+      <p>Right now I'm deep in my studies, building projects, and actively looking for opportunities to grow as a developer — whether that's an internship, freelance work, or collaboration.</p>
+      <div class="stat-row">
+        <div class="stat-box">
+          <div class="stat-number">2+</div>
+          <div class="stat-label">Years sales experience</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">JHB</div>
+          <div class="stat-label">Based in Johannesburg</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">Education</div>
+          <div class="stat-label">Currently Studying Information Technology, Software Development</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-number">Open</div>
+          <div class="stat-label">To opportunities, the aim in <strong>GROWTH</strong> </div>
+        </div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <div class="av-initials">IN</div>
+        <div class="av-info">
+          <h3>Intando Ndoda</h3>
+          <p>Software Dev Student</p>
+        </div>
+      </div>
+      <div class="av-detail-row">
+        <div class="av-detail-icon">📍</div>
+        <div class="av-detail-text">
+          <strong>Location</strong>
+          <span>Johannesburg, Gauteng, South Africa</span>
+        </div>
+      </div>
+      <div class="av-detail-row">
+        <div class="av-detail-icon">🎓</div>
+        <div class="av-detail-text">
+          <strong>Status</strong>
+          <span>Currently studying software development</span>
+        </div>
+      </div>
+      <div class="av-detail-row">
+        <div class="av-detail-icon">💼</div>
+        <div class="av-detail-text">
+          <strong>Background</strong>
+          <span>Sales &amp; customer engagement</span>
+        </div>
+      </div>
+      <div class="av-detail-row">
+        <div class="av-detail-icon">🚀</div>
+        <div class="av-detail-text">
+          <strong>Looking for</strong>
+          <span>Internships, junior roles, collaborations</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">What I know</p>
+  <h2 class="section-title">Skills</h2>
+  <div class="section-divider"></div>
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-card-icon">💻</div>
+      <h3>Front-end development</h3>
+      <p>Building interfaces with HTML, CSS, and JavaScript — making things look good and work well.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 75%;"></div></div>
+      <div class="skill-pct">75% — learning</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🐍</div>
+      <h3>Programming fundamentals</h3>
+      <p>Core logic, data structures, problem-solving through Python and general programming concepts.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 80%;"></div></div>
+      <div class="skill-pct">80% — learning</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🗄️</div>
+      <h3>Databases &amp; SQL</h3>
+      <p>Understanding relational databases, writing queries, and managing structured data.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 60%;"></div></div>
+      <div class="skill-pct">60% — growing</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🤝</div>
+      <h3>Sales &amp; communication</h3>
+      <p>Listening, persuading, building relationships, communication — skills that make me a better dev and teammate.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 90%;"></div></div>
+      <div class="skill-pct">90% — strong</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🔧</div>
+      <h3>Version control (Git)</h3>
+      <p>Working with Git and GitHub to track changes, collaborate, and manage code effectively.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 55%;"></div></div>
+      <div class="skill-pct">55% — learning</div>
+    </div>
+    <div class="skill-card">
+      <div class="skill-card-icon">🧠</div>
+      <h3>Problem solving</h3>
+      <p>Breaking complex challenges into steps — honed through sales targets and coding exercises alike.</p>
+      <div class="skill-bar-wrap"><div class="skill-bar" style="width: 90%;"></div></div>
+      <div class="skill-pct">90% — solid</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label">Where I've been</p>
+  <h2 class="section-title">Experience</h2>
+  <div class="section-divider"></div>
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Febuary 2025 — May 2026</div>
+      <div class="timeline-role">Sales Consultant</div>
+      <div class="timeline-company">iStore, Johannesburg, South Africa</div>
+      <p class="timeline-desc">Worked in a client-facing sales role where I developed strong communication, negotiation, and relationship-building skills. Consistently met and exceeded targets by understanding customer needs and delivering value-driven solutions. This experience shaped how I think about users and products.</p>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot"></div>
+      <div class="timeline-date">Febuary 2023 — January 2025</div>
+      <div class="timeline-role">Sales Consultant</div>
+      <div class="timeline-company">Destinatons by Frasers, Johannesburg, South Africa</div>
+      <p class="timeline-desc">Upon completing my Matric, I secured a job while simultaneously studying full time.An experience that sharpened my time management, ability to work under pressure, and problem-solving skills.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <p class="section-label">What I've built</p>
+  <h2 class="section-title">Projects</h2>
+  <div class="section-divider"></div>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-num">PROJECT 01</div>
+      <h3>Personal portfolio website</h3>
+      <p>This very site — designed and coded from scratch to showcase my skills, experience, and personality as a developer entering the tech industry.</p>
+      <p>This is my very first successful personality project I have completed, but you will be getting more from me as time progresses</p>
+      <div class="project-tech">
+        <span class="tech-pill">HTML</span>
+        <span class="tech-pill">CSS</span>
+      </div>
+    </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">How I got here</p>
+  <h2 class="section-title">Education</h2>
+  <div class="section-divider"></div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <div class="edu-icon">🎓</div>
+      <div class="edu-degree">Software Development</div>
+      <div class="edu-school">Rosebank International, Johannesburg</div>
+      <div class="edu-year">Present</div>
+      <p class="edu-desc">Studying software development covering programming fundamentals, web technologies, databases, and software engineering principles. Building real projects alongside formal coursework.</p>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">🏫</div>
+      <div class="edu-degree">Matric / High School</div>
+      <div class="edu-school">Primrose Tecnical High School, South Africa</div>
+      <div class="edu-year">Completed</div>
+      <p class="edu-desc">Completed the South African National Senior Certificate (matric), laying the academic foundation that led to further professional and tech education.</p>
+    </div>
+    <div class="edu-card">
+      <div class="edu-icon">📚</div>
+      <div class="edu-degree">Self-directed learning</div>
+      <div class="edu-school">Online platforms &amp; practice</div>
+      <div class="edu-year">Ongoing</div>
+      <p class="edu-desc">Actively learning through platforms like freeCodeCamp, YouTube, and documentation — building side projects and reinforcing classroom concepts through daily practice. I have recently completed a Cyber Security Course on Udemy with FNB</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Let's talk</p>
+  <h2 class="section-title">Get in touch</h2>
+  <div class="section-divider"></div>
+  <div class="contact-wrap">
+    <p style="color: var(--muted); font-size: 1.05rem; margin-bottom: 0.5rem;">
+      Whether you have an opportunity, a project to collaborate on, or just want to say hi — my inbox is open.
+    </p>
+    <div class="contact-links">
+      <a href="mailto:ndodaintando@email.com" class="contact-item">
+        <div class="contact-icon">✉️</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-value">ndodaintando@email.com</div>
+        </div>
+        <div class="contact-arrow">→</div>
+      </a>
+      <a href="www.linkedin.com/in/intando-ndoda-837550265" target="_blank" class="contact-item">
+        <div class="contact-icon">🔗</div>
+        <div>
+          <div class="contact-label">LinkedIn</div>
+          <div class="contact-value">linkedin.com/in/Intando-Ndoda</div>
+        </div>
+        <div class="contact-arrow">→</div>
+      </a>
+      <a href="https://www.instagram.com/intando_ndoda/?__pwa=1" target="_blank" class="contact-item">
+        <div class="contact-icon">💾</div>
+        <div>
+          <div class="contact-label">Linkme</div>
+          <div class="contact-value">https://link.me/intando_ndoda</div>
+        </div>
+        <div class="contact-arrow">→</div>
+      </a>
+      <a href="tel:+27000000000" class="contact-item">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-value">+27 (81) 417-6442</div>
+        </div>
+        <div class="contact-arrow">→</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <span>Intando Ndoda</span> — Johannesburg, South Africa</p>
+  <p>Built with <span>HTML · CSS · 💜</span></p>
+</footer>
+
+</body>
+</html>
